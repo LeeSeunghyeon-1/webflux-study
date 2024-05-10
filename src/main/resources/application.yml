@@ -1,0 +1,5 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://ujmlee0524:mDmWSelEHWZUGMPH@test.xjtpazh.mongodb.net/test
+      auto-index-creation: true
