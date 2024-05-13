@@ -1,17 +1,28 @@
 package webfluxstudy.demo.domain.test1;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.core.io.buffer.DataBufferUtils;
+import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import webfluxstudy.demo.domain.test1.entity.Member;
 import webfluxstudy.demo.domain.test1.service.TestService;
+
+import java.io.IOException;
+
 @RestController
+@RequestMapping("/api/v1/test")
+@Slf4j
 @RequiredArgsConstructor
 public class TestController {
 
@@ -36,10 +47,10 @@ public class TestController {
     }
 
     //방법3 : [Flux] fromIterable
-    @GetMapping("/members")
-    public Flux<Member> getAllUsers() {
-        return testService.getAllMembers();
-    }
+//    @GetMapping("/members")
+//    public Flux<Member> getAllUsers() {
+//        return testService.getAllMembers();
+//    }
     
     /**
      * [ 과제 ] -> webFlux 를 이용하여 파일 다운로드 구현
@@ -50,9 +61,22 @@ public class TestController {
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"");
         headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream");
 
+        log.info("filename: {}", filename);
+        log.info("headers: {}", headers);
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(testService.downloadFile(filename));
+    }
+
+    @GetMapping("/download")
+    public Flux<DataBuffer> getTest() throws IOException {
+        Resource resource = new FileSystemResource("C:\\image\\mmmm.png");
+        System.out.println("resource.contentLength()" + resource.contentLength());
+        return DataBufferUtils.read(
+                resource,
+                new DefaultDataBufferFactory(),
+                resource.getContentAsByteArray().length
+        );
     }
 
 }

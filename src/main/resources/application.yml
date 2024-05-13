@@ -1,5 +1,16 @@
 spring:
   data:
     mongodb:
-      uri: mongodb+srv://ujmlee0524:mDmWSelEHWZUGMPH@test.xjtpazh.mongodb.net/test
+#      uri: mongodb+srv://ujmlee0524:mDmWSelEHWZUGMPH@test.xjtpazh.mongodb.net/test
+      uri: mongodb://localhost:27017/test
       auto-index-creation: true
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          mongodb: DEBUG
+server:
+  tomcat:
+    connection-timeout: 3000
+    max-threads: 200
