@@ -18,7 +18,11 @@ repositories {
 }
 
 dependencies {
+	//webFlux
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	//reactor
+	implementation 'io.projectreactor:reactor-core:3.4.0'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive:2.4.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
