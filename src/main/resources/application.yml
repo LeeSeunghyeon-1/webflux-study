@@ -8,6 +8,8 @@ logging:
   level:
     org:
       springframework:
+        org.springframework.web: trace
+        org.springframework.web.multipart: trace
         data:
           mongodb: DEBUG
 server:

@@ -9,10 +9,8 @@ import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import webfluxstudy.demo.domain.test1.entity.Member;
@@ -77,6 +75,14 @@ public class TestController {
                 new DefaultDataBufferFactory(),
                 resource.getContentAsByteArray().length
         );
+    }
+
+    @PostMapping(value = "/upload", consumes = "multipart/form-data")
+    public String uploadFile(@RequestParam("file") MultipartFile file) {
+        log.info("file : {}", file);
+        log.info("fileName : {}", file.getOriginalFilename());
+        log.info(file.getContentType());
+        return "파일 업로드에 성공하였습니다. ";
     }
 
 }
